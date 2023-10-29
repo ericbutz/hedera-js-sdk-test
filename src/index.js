@@ -5,9 +5,12 @@ const {
   AccountBalanceQuery,
   Hbar,
   TransferTransaction,
+  TopicCreateTransaction,
+  TopicMessageSubmitTransaction,
+  TopicMessageQuery
 } = require("@hashgraph/sdk");
 
-require("dotenv").config();
+require("dotenv").config({path:'../.env'});
 
 async function environmentSetup() {
   //Grab your Hedera testnet account ID and private key from your .env file
@@ -34,10 +37,10 @@ async function environmentSetup() {
   client.setDefaultMaxQueryPayment(new Hbar(50));
 
   //Create new keys
-  const newAccountPrivateKey = PrivateKey.generateED25519(); 
+  const newAccountPrivateKey = await PrivateKey.generateED25519Async(); 
   console.log('newAccountPrivateKey: ', newAccountPrivateKey);
   const newAccountPublicKey = newAccountPrivateKey.publicKey;
-  console.log('newAccountPublicKey: ', newAccountPublicKey);
+  console.log('newAccountPublicKey: ', newAccountPublicKey.toString());
 
   //Create a new account with 1,000 tinybar starting balance
   const newAccount = await new AccountCreateTransaction()
